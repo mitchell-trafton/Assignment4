@@ -44,17 +44,25 @@ namespace Assignment_4
             this.equationLabel = new System.Windows.Forms.Label();
             this.lineLabel = new System.Windows.Forms.Label();
             this.clearButton = new System.Windows.Forms.Button();
-            this.lineBox = new System.Windows.Forms.ComboBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            lineBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            //
-            // line initialization, the key UInt denotes which line is being accessed, the four 0s following are for the four variables for a line. 
-            //The fifth is for line type -1 is unused
-            //
-            Globals.line.Add(0, new int[] { 0, 0, 0, 0, -1 });
-            Globals.line.Add(1, new int[] { 0, 0, 0, 0, -1 });
-            Globals.line.Add(2, new int[] { 0, 0, 0, 0, -1 });
-            Globals.line.Add(3, new int[] { 0, 0, 0, 0, -1 });
+            // 
+            // lineBox
+            // 
+            lineBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            lineBox.FormattingEnabled = true;
+            lineBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            lineBox.Items.AddRange(new object[] {
+            "Line 1 (Black)",
+            "Line 2 (Red)",
+            "Line 3 (Green)",
+            "Line 4 (Blue)"});
+            lineBox.Location = new System.Drawing.Point(555, 348);
+            lineBox.Name = "lineBox";
+            lineBox.Size = new System.Drawing.Size(209, 21);
+            lineBox.TabIndex = 13;
             // 
             // pictureBox1
             // 
@@ -63,6 +71,7 @@ namespace Assignment_4
             this.pictureBox1.Size = new System.Drawing.Size(776, 256);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // textBox1
             // 
@@ -172,21 +181,6 @@ namespace Assignment_4
             this.lineLabel.TabIndex = 12;
             this.lineLabel.Text = "Line selection";
             // 
-            // lineBox
-            // 
-            this.lineBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.lineBox.FormattingEnabled = true;
-            this.lineBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.lineBox.Items.AddRange(new object[] {
-            "Line 1 (Black)",
-            "Line 2 (Red)",
-            "Line 3 (Green)",
-            "Line 4 (Blue)"});
-            this.lineBox.Location = new System.Drawing.Point(555, 348);
-            this.lineBox.Name = "lineBox";
-            this.lineBox.Size = new System.Drawing.Size(209, 21);
-            this.lineBox.TabIndex = 13;
-            // 
             // clearButton
             // 
             this.clearButton.Location = new System.Drawing.Point(602, 412);
@@ -203,7 +197,7 @@ namespace Assignment_4
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.clearButton);
-            this.Controls.Add(this.lineBox);
+            this.Controls.Add(lineBox);
             this.Controls.Add(this.lineLabel);
             this.Controls.Add(this.equationLabel);
             this.Controls.Add(this.label4);
@@ -242,6 +236,7 @@ namespace Assignment_4
         private System.Windows.Forms.Label equationLabel;
         private System.Windows.Forms.Label lineLabel;
         private System.Windows.Forms.Button clearButton;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

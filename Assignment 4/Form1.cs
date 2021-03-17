@@ -122,7 +122,7 @@ namespace Assignment_4
                     case 1:
                         if (textBox1.TextLength != 0 && textBox2.TextLength != 0 && textBox3.TextLength !=0)
                         {
-                            int[] values = new int[] { Int32.Parse(textBox1.Text), Int32.Parse(textBox2.Text), Int32.Parse(textBox2.Text)};
+                            int[] values = new int[] { Int32.Parse(textBox1.Text), Int32.Parse(textBox2.Text), Int32.Parse(textBox3.Text)};
                             goDraw(equationBox.SelectedIndex, lineBox.SelectedIndex, values);
                         }
                         else
@@ -231,6 +231,19 @@ namespace Assignment_4
             float xUnitSize = pictureBox1.Width / 2 / 10;//the size of one unit on the graph's x axis
             float yUnitSize = pictureBox1.Height / 2 / 10;//the size of one unit on the graph's y axis
 
+            g.DrawCurve(new Pen(Color.Purple), new Point[]
+            {
+                new Point((int)((pictureBox1.Width / 2) - 4*xUnitSize), (int)((pictureBox1.Height / 2) + 64*yUnitSize)),
+                new Point((int)((pictureBox1.Width / 2) - 3*xUnitSize), (int)((pictureBox1.Height / 2) + 27*yUnitSize)),
+                new Point((int)((pictureBox1.Width / 2) - 2*xUnitSize), (int)((pictureBox1.Height / 2) + 8*yUnitSize)),
+                new Point((int)((pictureBox1.Width / 2) - xUnitSize), (int)((pictureBox1.Height / 2) + yUnitSize)),
+                new Point((int)(pictureBox1.Width / 2), (int)(pictureBox1.Height / 2)),
+                new Point((int)((pictureBox1.Width / 2) + xUnitSize), (int)((pictureBox1.Height / 2) - yUnitSize)),
+                new Point((int)((pictureBox1.Width / 2) + 2*xUnitSize), (int)((pictureBox1.Height / 2) - 8*yUnitSize)),
+                new Point((int)((pictureBox1.Width / 2) + 3*xUnitSize), (int)((pictureBox1.Height / 2) - 27*yUnitSize)),
+                new Point((int)((pictureBox1.Width / 2) + 4*xUnitSize), (int)((pictureBox1.Height / 2) - 64*yUnitSize))
+            });
+
             foreach (KeyValuePair<uint, List<int>> lines in Globals.line)
             {
                 if (lines.Value[lines.Value.Count-1] == 0) // y = mx + b (line)
@@ -243,12 +256,16 @@ namespace Assignment_4
 
                 else if (lines.Value[lines.Value.Count-1] == 1) // y = ax^2 + bx + c (quadratic)
                 {
+                    Point[] points = quadraticPoints(-10, 10, lines.Value[0], lines.Value[1], lines.Value[2], xUnitSize, yUnitSize);
 
+                    if (points != null) g.DrawCurve(penColors[lines.Key], points);
                 }
 
                 else if (lines.Value[lines.Value.Count-1] == 2) // y = ax^3 + bx^2 + cx + d (cubic)
                 {
+                    Point[] points = cubicPoints(-10, 10, lines.Value[0], lines.Value[1], lines.Value[2], lines.Value[3], xUnitSize, yUnitSize);
 
+                    if (points != null) g.DrawCurve(penColors[lines.Key], points);
                 }
 
                 else if (lines.Value[lines.Value.Count-1] == 3) // (x-h)^2 + (y-k)^2 = r^2 (circle)
@@ -260,6 +277,36 @@ namespace Assignment_4
                     g.DrawEllipse(penColors[lines.Key], x_coord, y_coord, diameter * xUnitSize, diameter * yUnitSize);
                 }
             }
+        }
+
+        private Point[] quadraticPoints(int xMin, int xMax, int a, int b, int c, float xUnitSize, float yUnitSize)
+        {
+            if (xMin >= xMax) return null;//return null if xMax is not greater than xMin
+
+            List<Point> points = new List<Point>();//list of generated points; will be returned as an array
+
+            for (int x = xMin; x <= xMax; x++) 
+            {
+                int result = a * x * x + b * x + c;
+                points.Add(new Point((int)((pictureBox1.Width / 2) + x * xUnitSize), (int)((pictureBox1.Height / 2) - result * yUnitSize)));
+            }
+
+            return points.ToArray();
+        }
+
+        private Point[] cubicPoints(int xMin, int xMax, int a, int b, int c, int d, float xUnitSize, float yUnitSize)
+        {
+            if (xMin >= xMax) return null;//return null if xMax is not greater than xMin
+
+            List<Point> points = new List<Point>();//list of generated points; will be returned as an array
+
+            for (int x = xMin; x <= xMax; x++)
+            {
+                int result = a * x * x * x + b * x * x + c * x + d;
+                points.Add(new Point((int)((pictureBox1.Width / 2) + x * xUnitSize), (int)((pictureBox1.Height / 2) - result * yUnitSize)));
+            }
+
+            return points.ToArray();
         }
     }
 }

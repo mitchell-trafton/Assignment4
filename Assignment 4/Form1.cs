@@ -231,19 +231,6 @@ namespace Assignment_4
             float xUnitSize = pictureBox1.Width / 2 / 10;//the size of one unit on the graph's x axis
             float yUnitSize = pictureBox1.Height / 2 / 10;//the size of one unit on the graph's y axis
 
-            g.DrawCurve(new Pen(Color.Purple), new Point[]
-            {
-                new Point((int)((pictureBox1.Width / 2) - 4*xUnitSize), (int)((pictureBox1.Height / 2) + 64*yUnitSize)),
-                new Point((int)((pictureBox1.Width / 2) - 3*xUnitSize), (int)((pictureBox1.Height / 2) + 27*yUnitSize)),
-                new Point((int)((pictureBox1.Width / 2) - 2*xUnitSize), (int)((pictureBox1.Height / 2) + 8*yUnitSize)),
-                new Point((int)((pictureBox1.Width / 2) - xUnitSize), (int)((pictureBox1.Height / 2) + yUnitSize)),
-                new Point((int)(pictureBox1.Width / 2), (int)(pictureBox1.Height / 2)),
-                new Point((int)((pictureBox1.Width / 2) + xUnitSize), (int)((pictureBox1.Height / 2) - yUnitSize)),
-                new Point((int)((pictureBox1.Width / 2) + 2*xUnitSize), (int)((pictureBox1.Height / 2) - 8*yUnitSize)),
-                new Point((int)((pictureBox1.Width / 2) + 3*xUnitSize), (int)((pictureBox1.Height / 2) - 27*yUnitSize)),
-                new Point((int)((pictureBox1.Width / 2) + 4*xUnitSize), (int)((pictureBox1.Height / 2) - 64*yUnitSize))
-            });
-
             foreach (KeyValuePair<uint, List<int>> lines in Globals.line)
             {
                 if (lines.Value[lines.Value.Count-1] == 0) // y = mx + b (line)

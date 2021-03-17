@@ -123,7 +123,7 @@ namespace Assignment_4
                         if (textBox1.TextLength != 0 && textBox2.TextLength != 0 && textBox3.TextLength !=0)
                         {
                             int[] values = new int[] { Int32.Parse(textBox1.Text), Int32.Parse(textBox2.Text), Int32.Parse(textBox2.Text)};
-                            goDraw(equationBox.SelectedIndex, 0, values);
+                            goDraw(equationBox.SelectedIndex, lineBox.SelectedIndex, values);
                         }
                         else
                         {
@@ -134,7 +134,7 @@ namespace Assignment_4
                         if (textBox1.TextLength != 0 && textBox2.TextLength != 0 && textBox3.TextLength !=0 && textBox4.TextLength !=0)
                         {
                             int[] values = new int[] { Int32.Parse(textBox1.Text), Int32.Parse(textBox2.Text), Int32.Parse(textBox3.Text), Int32.Parse(textBox4.Text)};
-                            goDraw(equationBox.SelectedIndex, 0, values);
+                            goDraw(equationBox.SelectedIndex, lineBox.SelectedIndex, values);
                         }
                         else
                         {
@@ -145,7 +145,7 @@ namespace Assignment_4
                         if (textBox1.TextLength != 0 && textBox2.TextLength != 0 && textBox3.TextLength != 0)
                         {
                             int[] values = new int[] { Int32.Parse(textBox1.Text), Int32.Parse(textBox2.Text), Int32.Parse(textBox3.Text) };
-                            goDraw(equationBox.SelectedIndex, 0, values);
+                            goDraw(equationBox.SelectedIndex, lineBox.SelectedIndex, values);
                         }
                         else
                         {
@@ -228,15 +228,36 @@ namespace Assignment_4
             }
 
             Pen[] penColors = { new Pen(Color.Black), new Pen(Color.Red), new Pen(Color.Green), new Pen(Color.Blue) };
+            float xUnitSize = pictureBox1.Width / 2 / 10;//the size of one unit on the graph's x axis
+            float yUnitSize = pictureBox1.Height / 2 / 10;//the size of one unit on the graph's y axis
 
             foreach (KeyValuePair<uint, List<int>> lines in Globals.line)
             {
-                if (lines.Value[lines.Value.Count-1] == 0)// y = mx + b
+                if (lines.Value[lines.Value.Count-1] == 0) // y = mx + b (line)
                 {
-                    float y_start = (pictureBox1.Height / 2) + (pictureBox1.Height / 2 / 10) * (lines.Value[0] * 10 - lines.Value[1]);
-                    float y_end = (pictureBox1.Height / 2) + (pictureBox1.Height / 2 / 10) * (lines.Value[0] * -10 - lines.Value[1]);
+                    float y_start = (pictureBox1.Height / 2) + yUnitSize * (lines.Value[0] * 10 - lines.Value[1]);
+                    float y_end = (pictureBox1.Height / 2) + yUnitSize * (lines.Value[0] * -10 - lines.Value[1]);
 
                     g.DrawLine(penColors[lines.Key], 0, y_start, pictureBox1.Width, y_end);
+                }
+
+                else if (lines.Value[lines.Value.Count-1] == 1) // y = ax^2 + bx + c (quadratic)
+                {
+
+                }
+
+                else if (lines.Value[lines.Value.Count-1] == 2) // y = ax^3 + bx^2 + cx + d (cubic)
+                {
+
+                }
+
+                else if (lines.Value[lines.Value.Count-1] == 3) // (x-h)^2 + (y-k)^2 = r^2 (circle)
+                {
+                    float x_coord = (pictureBox1.Width / 2) + lines.Value[0] * xUnitSize - lines.Value[2] * xUnitSize;
+                    float y_coord = (pictureBox1.Height / 2) - lines.Value[1] * yUnitSize - lines.Value[2] * yUnitSize;
+                    float diameter = 2 * lines.Value[2];
+
+                    g.DrawEllipse(penColors[lines.Key], x_coord, y_coord, diameter * xUnitSize, diameter * yUnitSize);
                 }
             }
         }

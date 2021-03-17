@@ -12,6 +12,7 @@ namespace Assignment_4
 {
     public partial class Form1 : Form
     {
+
         public Form1()
         {
             InitializeComponent();
@@ -202,6 +203,26 @@ namespace Assignment_4
                 equationBox.SelectedIndex = Globals.line[(uint)lineBox.SelectedIndex][4];
             else
                 equationBox.SelectedIndex = 0;
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            using (Pen p = new Pen(Color.FromArgb(255,255,255,255)))
+            {
+                g.DrawLine(p, 0, pictureBox1.Height / 2, pictureBox1.Width, pictureBox1.Height / 2);//x = 0
+                g.DrawLine(p, pictureBox1.Width / 2, 0, pictureBox1.Width / 2, pictureBox1.Height);//y = 0
+            }
+
+            using (Pen p = new Pen(Color.FromArgb(100, 255, 255, 255)))
+            {
+                for (int i = 0; i <= 20; i++)
+                {
+                    g.DrawLine(p, 0 + (pictureBox1.Width / 20 * i), 0, 0 + (pictureBox1.Width / 20 * i), pictureBox1.Height);
+                    g.DrawLine(p, 0, 0 + (pictureBox1.Height / 20 * i), pictureBox1.Width, 0 + (pictureBox1.Height / 20 * i));
+                }
+            }
         }
     }
 }

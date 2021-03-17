@@ -100,10 +100,12 @@ namespace Assignment_4
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //calculate button
         {
             try
             {
+                if (lineBox.SelectedIndex == -1) throw new InvalidOperationException();
+
                 switch(equationBox.SelectedIndex)
                 {
                     case 0:
@@ -154,7 +156,7 @@ namespace Assignment_4
             }
             catch(InvalidOperationException e2)
             {
-                string message = "please fill out all variables";
+                string message = "please fill out all fields";
                 string caption = "error";
                 MessageBoxButtons mButtons = MessageBoxButtons.OK;
                 MessageBox.Show(message, caption, mButtons);
@@ -162,24 +164,20 @@ namespace Assignment_4
         }
         private void goDraw(int index, int lineNumber, int[] values)
         {
+            Globals.line[(uint)lineNumber] = new List<int>();
             //This loop sets the array of ints for the line into the dictionary for said line.
-            int j = 0;
             foreach (int i in values)
             {
-                Globals.line[(uint)lineNumber][j] = i;
-                j++;
+                Globals.line[(uint)lineNumber].Add(i);
             }
-            Globals.line[(uint)lineNumber][4] = index; // this is the index of the chosen function being set for the line.
+            Globals.line[(uint)lineNumber].Add(index); // this is the index of the chosen function being set for the line.
+
+            pictureBox1.Refresh();
         }
 
         private void clearButton_Click(object sender, EventArgs e)
         {
-            Globals.line[(uint)lineBox.SelectedIndex][0] = 0;
-            Globals.line[(uint)lineBox.SelectedIndex][1] = 0;
-            Globals.line[(uint)lineBox.SelectedIndex][2] = 0;
-            Globals.line[(uint)lineBox.SelectedIndex][3] = 0;
-            Globals.line[(uint)lineBox.SelectedIndex][4] = -1; // set line to no longer in use
-
+            if (lineBox.SelectedIndex > -1) Globals.line[(uint)lineBox.SelectedIndex] = null;
         }
         /**********************************************************************************
          * lineBox_SelectedIndexChanged
@@ -209,18 +207,36 @@ namespace Assignment_4
         {
             Graphics g = e.Graphics;
 
-            using (Pen p = new Pen(Color.FromArgb(255,255,255,255)))
+
+            //draw the grid lines for the graph
+            using (Pen p = new Pen(Color.Black, 2))//draw black lines representing x = 0 and y = 0
             {
                 g.DrawLine(p, 0, pictureBox1.Height / 2, pictureBox1.Width, pictureBox1.Height / 2);//x = 0
                 g.DrawLine(p, pictureBox1.Width / 2, 0, pictureBox1.Width / 2, pictureBox1.Height);//y = 0
+
+                g.DrawString("10", new Font("Arial", 10), new SolidBrush(Color.Black), pictureBox1.Width / 2 + 2, 5);
+                g.DrawString("10", new Font("Arial", 10), new SolidBrush(Color.Black), pictureBox1.Width - 17, pictureBox1.Height / 2);
             }
 
-            using (Pen p = new Pen(Color.FromArgb(100, 255, 255, 255)))
+            using (Pen p = new Pen(Color.Gray))//draw 9 transparent white lines on each side of the x = 0 and y = 0 lines
             {
                 for (int i = 0; i <= 20; i++)
                 {
-                    g.DrawLine(p, 0 + (pictureBox1.Width / 20 * i), 0, 0 + (pictureBox1.Width / 20 * i), pictureBox1.Height);
-                    g.DrawLine(p, 0, 0 + (pictureBox1.Height / 20 * i), pictureBox1.Width, 0 + (pictureBox1.Height / 20 * i));
+                    g.DrawLine(p, 0 + (pictureBox1.Width / 20 * i), 0, 0 + (pictureBox1.Width / 20 * i), pictureBox1.Height); // x lines
+                    g.DrawLine(p, 0, 0 + (pictureBox1.Height / 20 * i), pictureBox1.Width, 0 + (pictureBox1.Height / 20 * i)); // y lines
+                }
+            }
+
+            Pen[] penColors = { new Pen(Color.Black), new Pen(Color.Red), new Pen(Color.Green), new Pen(Color.Blue) };
+
+            foreach (KeyValuePair<uint, List<int>> lines in Globals.line)
+            {
+                if (lines.Value[lines.Value.Count-1] == 0)// y = mx + b
+                {
+                    float y_start = (pictureBox1.Height / 2) + (pictureBox1.Height / 2 / 10) * (lines.Value[0] * 10 - lines.Value[1]);
+                    float y_end = (pictureBox1.Height / 2) + (pictureBox1.Height / 2 / 10) * (lines.Value[0] * -10 - lines.Value[1]);
+
+                    g.DrawLine(penColors[lines.Key], 0, y_start, pictureBox1.Width, y_end);
                 }
             }
         }

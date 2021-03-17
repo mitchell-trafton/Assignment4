@@ -8,7 +8,7 @@ namespace Assignment_4
 {
     static class Globals
     {
-		public static Dictionary<uint, int[]> line = new Dictionary<uint, int[]>();
+		public static Dictionary<uint, List<int>> line = new Dictionary<uint, List<int>>();
 	}
 }
 

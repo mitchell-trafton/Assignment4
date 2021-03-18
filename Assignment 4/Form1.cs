@@ -243,6 +243,14 @@ namespace Assignment_4
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            /***********************************************************************
+             * Paint handler for pictureBox1.
+             * 
+             * Will create a graph according to the xmin, xmax, xintvl, ymin, ymax, 
+             * and yintvl specifications. Also plots any equations stored in the global
+             * line dictionary according in their designated colors.
+             ***********************************************************************/
+
             Graphics g = e.Graphics;
 
             this.DoubleBuffered = true;
@@ -290,13 +298,15 @@ namespace Assignment_4
             g.DrawString(xmax.ToString(), new Font("Arial", 10), new SolidBrush(Color.Black), pictureBox1.Width - 17, pictureBox1.Height / 2);//x-max
             g.DrawString(xmin.ToString(), new Font("Arial", 10), new SolidBrush(Color.Black), 0, pictureBox1.Height / 2);//x-min
 
-            Pen[] penColors = { new Pen(Color.Black), new Pen(Color.Red), new Pen(Color.Green), new Pen(Color.Blue) };
+            Pen[] penColors = { new Pen(Color.Black), new Pen(Color.Red), new Pen(Color.Green), new Pen(Color.Blue) };//different pen colors corresponding with each index in the item dictionary
             
 
-            foreach (KeyValuePair<uint, List<int>> lines in Globals.line)
+            //draw each equation that is stored in the global line dictionary
+            foreach (KeyValuePair<uint, List<int>> lines in Globals.line)//only existing entries in the dictionary that are not null will be drawn
             {
                 if (lines.Value == null) continue;//don't do anything if there is no list for a line
 
+                //the equation to be drawn is specified by the last entry in each list
                 if (lines.Value[lines.Value.Count-1] == 0) // y = mx + b (line)
                 {
                     float x_start = coordConversion(xmin, xUnitSize, 'x');
@@ -335,10 +345,33 @@ namespace Assignment_4
 
         private Point[] quadraticPoints(int xMin, int xMax, int a, int b, int c, float xUnitSize, float yUnitSize)
         {
+            /*******************************************************************
+             * Takes in a minimum and maximum x value, as well as
+             * the a, b, and c values for a quadratic equation, and 
+             * returns an array of points within the graph in pictureBox1
+             * that create the equation in graph form.
+             * 
+             * Parameters:
+             * @xMin      = Minimum x value.
+             * @xMax      = Maximum x value.
+             * @a         = 'a' value for quadratic equation.
+             * @b         = 'b' value for quadratic equation.
+             * @c         = 'c' value for quadratic equation.
+             * @xUnitSize = Size of a single x interval (see class's xintvl value)
+             *              within the graph in pictureBox1.
+             * @yUnitSize = Size of a single y interval (see class's xintvl value)
+             *              within the graph in pictureBox1.
+             *              
+             *              
+             * @return: List of points that will plot out a quadratic equation
+             *          within the graph in pictureBox1.
+             *****************************************************************/
+
             if (xMin >= xMax) return null;//return null if xMax is not greater than xMin
 
             List<Point> points = new List<Point>();//list of generated points; will be returned as an array
 
+            //a point will be calculated for each integer between xMin and xMax
             for (int x = xMin; x <= xMax; x++) 
             {
                 int result = a * x * x + b * x + c;
@@ -350,6 +383,29 @@ namespace Assignment_4
 
         private Point[] cubicPoints(int xMin, int xMax, int a, int b, int c, int d, float xUnitSize, float yUnitSize)
         {
+            /*******************************************************************
+             * Takes in a minimum and maximum x value, as well as
+             * the a, b, c, and d values for a cubic equation, and 
+             * returns an array of points within the graph in pictureBox1
+             * that create the equation in graph form.
+             * 
+             * Parameters:
+             * @xMin      = Minimum x value.
+             * @xMax      = Maximum x value.
+             * @a         = 'a' value for cubic equation.
+             * @b         = 'b' value for cubic equation.
+             * @c         = 'c' value for cubic equation.
+             * @d         = 'd' value for cubic equation.
+             * @xUnitSize = Size of a single x interval (see class's xintvl value)
+             *              within the graph in pictureBox1.
+             * @yUnitSize = Size of a single y interval (see class's yintvl value)
+             *              within the graph in pictureBox1.
+             *              
+             *              
+             * @return: List of points that will plot out a cubic equation
+             *          within the graph in pictureBox1.
+             *****************************************************************/
+
             if (xMin >= xMax) return null;//return null if xMax is not greater than xMin
 
             List<Point> points = new List<Point>();//list of generated points; will be returned as an array
@@ -365,6 +421,22 @@ namespace Assignment_4
 
         private int coordConversion(float coord, float unitSize, char axis = 'x')
         {
+            /***************************************************
+             * Converts a coordinate value to one that can be
+             * plotted in the graph in pictureBox1.
+             * 
+             * Parameters:
+             * @coord    = x/y coordinate to be converted.
+             * @unitSize = Size of one interval on the coordinate's
+             *             axis. (see class's xintvl/yintvl value)
+             * @axis     = 'x' if the coordinate is an x coordinate.
+             *             'y' if the coordinate is a y coordinate.
+             *             
+             * 
+             * @return: The coordinate in a form that can be plotted
+             *          in pictureBox1's graph.
+             ***************************************************/
+
             float coordConv = 0;//converted coordinate; will be returned as an int
 
             if (axis == 'x')

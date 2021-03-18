@@ -12,6 +12,13 @@ namespace Assignment_4
 {
     public partial class Form1 : Form
     {
+        int xmin = -10;//minimum x value for graph
+        int xmax = 10;//maximum x value for graph
+        int xintvl = 1;//interval for x-axis tick marks
+        int ymin = -10;//minimum y value for graph
+        int ymax = 10;//maximum y value for graph
+        int yintvl = 1;//interval for y-axis tick marks
+
 
         public Form1()
         {
@@ -178,7 +185,38 @@ namespace Assignment_4
         private void clearButton_Click(object sender, EventArgs e)
         {
             if (lineBox.SelectedIndex > -1) Globals.line[(uint)lineBox.SelectedIndex] = null;
+            pictureBox1.Refresh();
         }
+
+        private void apply_btn_Click(object sender, EventArgs e)
+        {
+            bool minOverMax = false;//true when the min value entered is greater than the max
+
+            try
+            {
+                if (Int32.Parse(xmin_txt.Text) >= Int32.Parse(xmax_txt.Text) || Int32.Parse(ymin_txt.Text) >= Int32.Parse(ymax_txt.Text))
+                {
+                    minOverMax = true;
+                    throw new Exception();
+                }
+
+                xmin = Int32.Parse(xmin_txt.Text);
+                xmax = Int32.Parse(xmax_txt.Text);
+                xintvl = Int32.Parse(xintvl_txt.Text);
+                ymin = Int32.Parse(ymin_txt.Text);
+                ymax = Int32.Parse(ymax_txt.Text);
+                yintvl = Int32.Parse(yintvl_txt.Text);
+            }
+            catch(Exception ee)
+            {
+                if (!minOverMax) MessageBox.Show("Please fill in all fields with numbers.", "Error");
+                else MessageBox.Show("Pleas make sure that no minimum value is greater than or equal to its corresponding maximum value.", "Error");
+                return;
+            }
+
+            pictureBox1.Refresh();
+        }
+
         /**********************************************************************************
          * lineBox_SelectedIndexChanged
          * Purpose: When called, this method updates the textboxes to hold the values
@@ -207,61 +245,90 @@ namespace Assignment_4
         {
             Graphics g = e.Graphics;
 
+            this.DoubleBuffered = true;
 
-            //draw the grid lines for the graph
-            using (Pen p = new Pen(Color.Black, 2))//draw black lines representing x = 0 and y = 0
+            //reset graph size to default
+            pictureBox1.Height = 400;
+            pictureBox1.Width = 400;
+
+            float xUnitSize = pictureBox1.Width / System.Math.Abs((xmax - xmin) / xintvl);//the size of one unit on the graph's x axis
+            float yUnitSize = pictureBox1.Height / System.Math.Abs((ymax - ymin) / yintvl);//the size of one unit on the graph's y axis
+
+            int xintvlNum = System.Math.Abs((xmax - xmin) / xintvl);//number of x interval marks on the graph
+            int yintvlNum = System.Math.Abs((ymax - ymin) / yintvl);//number of y interval marks on the graph
+
+            Console.WriteLine(pictureBox1.Height);
+            Console.WriteLine(pictureBox1.Height * ((float)(0 - ymin) / (ymax-ymin)));
+
+            using (Pen p = new Pen(Color.Gray))//draw interval lines
             {
-                g.DrawLine(p, 0, pictureBox1.Height / 2, pictureBox1.Width, pictureBox1.Height / 2);//x = 0
-                g.DrawLine(p, pictureBox1.Width / 2, 0, pictureBox1.Width / 2, pictureBox1.Height);//y = 0
-
-                g.DrawString("10", new Font("Arial", 10), new SolidBrush(Color.Black), pictureBox1.Width / 2 + 2, 5);
-                g.DrawString("10", new Font("Arial", 10), new SolidBrush(Color.Black), pictureBox1.Width - 17, pictureBox1.Height / 2);
-            }
-
-            using (Pen p = new Pen(Color.Gray))//draw 9 transparent white lines on each side of the x = 0 and y = 0 lines
-            {
-                for (int i = 0; i <= 20; i++)
+                for (int i = 0; i <= xintvlNum; i++)
                 {
-                    g.DrawLine(p, 0 + (pictureBox1.Width / 20 * i), 0, 0 + (pictureBox1.Width / 20 * i), pictureBox1.Height); // x lines
-                    g.DrawLine(p, 0, 0 + (pictureBox1.Height / 20 * i), pictureBox1.Width, 0 + (pictureBox1.Height / 20 * i)); // y lines
+                    g.DrawLine(p, 0 + (xUnitSize * i), 0, 0 + (xUnitSize * i), pictureBox1.Height + 20); // x lines
+                    pictureBox1.Width = (int)(xUnitSize * ((float)(xmax - xmin)/xintvl));//readjust graph size to fit interval lines
                 }
+                for (int i = 0; i <= yintvlNum; i++)
+                {
+                    g.DrawLine(p, 0, 0 + (yUnitSize * i), pictureBox1.Width + 20, 0 + (yUnitSize * i)); // y lines
+                    pictureBox1.Height = (int)(yUnitSize * ((float)(ymax - ymin) / yintvl));//readjust graph size to fit interval lines
+                }                   
             }
+            //draw solid black lines at x = 0 and y = 0 if they appear within the graph's limits
+            using (Pen p = new Pen(Color.Black, 2))
+            {
+                if (xmin <= 0 && xmax >= 0)//x = 0
+                    g.DrawLine(p, pictureBox1.Width * ((float)(0 - xmin) / (xmax - xmin)), 0, pictureBox1.Width * ((float)(0 - xmin) / (xmax - xmin)), pictureBox1.Height);
+
+                if (ymin <= 0 && ymax >= 0)//y = 0
+                    g.DrawLine(p, 0, pictureBox1.Height - (pictureBox1.Height * ((float)(0 - ymin) / (ymax - ymin))),
+                               pictureBox1.Width, pictureBox1.Height - (pictureBox1.Height * ((float)(0 - ymin) / (ymax - ymin))));
+            }
+
+            //draw numbers at the ends of each axis to display the limits
+            g.DrawString(ymax.ToString(), new Font("Arial", 10), new SolidBrush(Color.Black), pictureBox1.Width / 2 + 2, 0);//y-max
+            g.DrawString(ymin.ToString(), new Font("Arial", 10), new SolidBrush(Color.Black), pictureBox1.Width / 2 + 2, pictureBox1.Height - 15);//y-min
+            g.DrawString(xmax.ToString(), new Font("Arial", 10), new SolidBrush(Color.Black), pictureBox1.Width - 17, pictureBox1.Height / 2);//x-max
+            g.DrawString(xmin.ToString(), new Font("Arial", 10), new SolidBrush(Color.Black), 0, pictureBox1.Height / 2);//x-min
 
             Pen[] penColors = { new Pen(Color.Black), new Pen(Color.Red), new Pen(Color.Green), new Pen(Color.Blue) };
-            float xUnitSize = pictureBox1.Width / 2 / 10;//the size of one unit on the graph's x axis
-            float yUnitSize = pictureBox1.Height / 2 / 10;//the size of one unit on the graph's y axis
+            
 
             foreach (KeyValuePair<uint, List<int>> lines in Globals.line)
             {
+                if (lines.Value == null) continue;//don't do anything if there is no list for a line
+
                 if (lines.Value[lines.Value.Count-1] == 0) // y = mx + b (line)
                 {
-                    float y_start = (pictureBox1.Height / 2) + yUnitSize * (lines.Value[0] * 10 - lines.Value[1]);
-                    float y_end = (pictureBox1.Height / 2) + yUnitSize * (lines.Value[0] * -10 - lines.Value[1]);
+                    float x_start = coordConversion(xmin, xUnitSize, 'x');
+                    float y_start = coordConversion(lines.Value[0] * xmin + lines.Value[1], yUnitSize, 'y');
+                    float x_end = coordConversion(xmax, xUnitSize, 'x');
+                    float y_end = coordConversion(lines.Value[0] * xmax + lines.Value[1], yUnitSize, 'y');
 
-                    g.DrawLine(penColors[lines.Key], 0, y_start, pictureBox1.Width, y_end);
+                    g.DrawLine(penColors[lines.Key], x_start, y_start, x_end, y_end);
                 }
 
                 else if (lines.Value[lines.Value.Count-1] == 1) // y = ax^2 + bx + c (quadratic)
                 {
-                    Point[] points = quadraticPoints(-10, 10, lines.Value[0], lines.Value[1], lines.Value[2], xUnitSize, yUnitSize);
+                    Point[] points = quadraticPoints(xmin, xmax, lines.Value[0], lines.Value[1], lines.Value[2], xUnitSize, yUnitSize);
 
                     if (points != null) g.DrawCurve(penColors[lines.Key], points);
                 }
 
                 else if (lines.Value[lines.Value.Count-1] == 2) // y = ax^3 + bx^2 + cx + d (cubic)
                 {
-                    Point[] points = cubicPoints(-10, 10, lines.Value[0], lines.Value[1], lines.Value[2], lines.Value[3], xUnitSize, yUnitSize);
+                    Point[] points = cubicPoints(xmin, xmax, lines.Value[0], lines.Value[1], lines.Value[2], lines.Value[3], xUnitSize, yUnitSize);
 
                     if (points != null) g.DrawCurve(penColors[lines.Key], points);
                 }
 
                 else if (lines.Value[lines.Value.Count-1] == 3) // (x-h)^2 + (y-k)^2 = r^2 (circle)
                 {
-                    float x_coord = (pictureBox1.Width / 2) + lines.Value[0] * xUnitSize - lines.Value[2] * xUnitSize;
-                    float y_coord = (pictureBox1.Height / 2) - lines.Value[1] * yUnitSize - lines.Value[2] * yUnitSize;
-                    float diameter = 2 * lines.Value[2];
+                    float x_coord = coordConversion(lines.Value[0] - lines.Value[2], xUnitSize, 'x');
+                    float y_coord = coordConversion(lines.Value[1] + lines.Value[2], yUnitSize, 'y');
+                    float x_diameter = 2 * lines.Value[2] / xintvl * xUnitSize;
+                    float y_diameter = 2 * lines.Value[2] / yintvl * yUnitSize;
 
-                    g.DrawEllipse(penColors[lines.Key], x_coord, y_coord, diameter * xUnitSize, diameter * yUnitSize);
+                    g.DrawEllipse(penColors[lines.Key], x_coord, y_coord, x_diameter, y_diameter);
                 }
             }
         }
@@ -275,7 +342,7 @@ namespace Assignment_4
             for (int x = xMin; x <= xMax; x++) 
             {
                 int result = a * x * x + b * x + c;
-                points.Add(new Point((int)((pictureBox1.Width / 2) + x * xUnitSize), (int)((pictureBox1.Height / 2) - result * yUnitSize)));
+                points.Add(new Point(coordConversion(x, xUnitSize, 'x'), coordConversion(result, yUnitSize, 'y')));
             }
 
             return points.ToArray();
@@ -290,10 +357,30 @@ namespace Assignment_4
             for (int x = xMin; x <= xMax; x++)
             {
                 int result = a * x * x * x + b * x * x + c * x + d;
-                points.Add(new Point((int)((pictureBox1.Width / 2) + x * xUnitSize), (int)((pictureBox1.Height / 2) - result * yUnitSize)));
+                points.Add(new Point(coordConversion(x, xUnitSize, 'x'), coordConversion(result, yUnitSize, 'y')));
             }
 
             return points.ToArray();
+        }
+
+        private int coordConversion(float coord, float unitSize, char axis = 'x')
+        {
+            float coordConv = 0;//converted coordinate; will be returned as an int
+
+            if (axis == 'x')
+            {
+                coordConv = coord - xmin;
+                coordConv /= xintvl;
+                coordConv *= unitSize;
+            }
+            else if (axis == 'y')
+            {
+                coordConv = ymax - coord;
+                coordConv /= yintvl;
+                coordConv *= unitSize;
+            }
+
+            return (int)coordConv;
         }
     }
 }

@@ -46,6 +46,19 @@ namespace Assignment_4
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.lineBox = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.apply_btn = new System.Windows.Forms.Button();
+            this.yintvl_txt = new System.Windows.Forms.TextBox();
+            this.yintvl_lbl = new System.Windows.Forms.Label();
+            this.ymax_txt = new System.Windows.Forms.TextBox();
+            this.ymax_lbl = new System.Windows.Forms.Label();
+            this.ymin_txt = new System.Windows.Forms.TextBox();
+            this.ymin_lbl = new System.Windows.Forms.Label();
+            this.xintvl_txt = new System.Windows.Forms.TextBox();
+            this.xintvl_lbl = new System.Windows.Forms.Label();
+            this.xmax_txt = new System.Windows.Forms.TextBox();
+            this.xmax_lbl = new System.Windows.Forms.Label();
+            this.xmin_txt = new System.Windows.Forms.TextBox();
+            this.xmin_lbl = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +68,7 @@ namespace Assignment_4
             this.pictureBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(800, 280);
+            this.pictureBox1.Size = new System.Drawing.Size(400, 400);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -98,7 +111,7 @@ namespace Assignment_4
             "Y = AX² +BX + C",
             "Y = AX³ + BX² + CX + D",
             "R² = (x -h)² + (y-k)²"});
-            this.equationBox.Location = new System.Drawing.Point(554, 39);
+            this.equationBox.Location = new System.Drawing.Point(363, 35);
             this.equationBox.Name = "equationBox";
             this.equationBox.Size = new System.Drawing.Size(209, 21);
             this.equationBox.TabIndex = 5;
@@ -106,7 +119,7 @@ namespace Assignment_4
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(601, 110);
+            this.button1.Location = new System.Drawing.Point(410, 106);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(122, 23);
             this.button1.TabIndex = 6;
@@ -154,7 +167,7 @@ namespace Assignment_4
             // equationLabel
             // 
             this.equationLabel.AutoSize = true;
-            this.equationLabel.Location = new System.Drawing.Point(475, 39);
+            this.equationLabel.Location = new System.Drawing.Point(284, 35);
             this.equationLabel.Name = "equationLabel";
             this.equationLabel.Size = new System.Drawing.Size(54, 13);
             this.equationLabel.TabIndex = 11;
@@ -163,7 +176,7 @@ namespace Assignment_4
             // lineLabel
             // 
             this.lineLabel.AutoSize = true;
-            this.lineLabel.Location = new System.Drawing.Point(457, 75);
+            this.lineLabel.Location = new System.Drawing.Point(266, 71);
             this.lineLabel.Name = "lineLabel";
             this.lineLabel.Size = new System.Drawing.Size(72, 13);
             this.lineLabel.TabIndex = 12;
@@ -171,7 +184,7 @@ namespace Assignment_4
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(601, 139);
+            this.clearButton.Location = new System.Drawing.Point(410, 135);
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(122, 23);
             this.clearButton.TabIndex = 14;
@@ -188,7 +201,7 @@ namespace Assignment_4
             "Line 2 (Red)",
             "Line 3 (Green)",
             "Line 4 (Blue)"});
-            this.lineBox.Location = new System.Drawing.Point(554, 72);
+            this.lineBox.Location = new System.Drawing.Point(363, 68);
             this.lineBox.Name = "lineBox";
             this.lineBox.Size = new System.Drawing.Size(209, 21);
             this.lineBox.TabIndex = 15;
@@ -210,18 +223,143 @@ namespace Assignment_4
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 286);
+            this.panel1.Location = new System.Drawing.Point(0, 420);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(800, 178);
+            this.panel1.Size = new System.Drawing.Size(774, 192);
             this.panel1.TabIndex = 16;
+            // 
+            // apply_btn
+            // 
+            this.apply_btn.Location = new System.Drawing.Point(626, 252);
+            this.apply_btn.Name = "apply_btn";
+            this.apply_btn.Size = new System.Drawing.Size(75, 23);
+            this.apply_btn.TabIndex = 28;
+            this.apply_btn.Text = "Apply";
+            this.apply_btn.UseVisualStyleBackColor = true;
+            this.apply_btn.Click += new System.EventHandler(this.apply_btn_Click);
+            // 
+            // yintvl_txt
+            // 
+            this.yintvl_txt.Location = new System.Drawing.Point(589, 226);
+            this.yintvl_txt.Name = "yintvl_txt";
+            this.yintvl_txt.Size = new System.Drawing.Size(156, 20);
+            this.yintvl_txt.TabIndex = 26;
+            this.yintvl_txt.Text = "1";
+            // 
+            // yintvl_lbl
+            // 
+            this.yintvl_lbl.AutoSize = true;
+            this.yintvl_lbl.Location = new System.Drawing.Point(528, 229);
+            this.yintvl_lbl.Name = "yintvl_lbl";
+            this.yintvl_lbl.Size = new System.Drawing.Size(55, 13);
+            this.yintvl_lbl.TabIndex = 27;
+            this.yintvl_lbl.Text = "y-interval=";
+            // 
+            // ymax_txt
+            // 
+            this.ymax_txt.Location = new System.Drawing.Point(589, 200);
+            this.ymax_txt.Name = "ymax_txt";
+            this.ymax_txt.Size = new System.Drawing.Size(156, 20);
+            this.ymax_txt.TabIndex = 24;
+            this.ymax_txt.Text = "10";
+            // 
+            // ymax_lbl
+            // 
+            this.ymax_lbl.AutoSize = true;
+            this.ymax_lbl.Location = new System.Drawing.Point(543, 203);
+            this.ymax_lbl.Name = "ymax_lbl";
+            this.ymax_lbl.Size = new System.Drawing.Size(40, 13);
+            this.ymax_lbl.TabIndex = 25;
+            this.ymax_lbl.Text = "y-max=";
+            // 
+            // ymin_txt
+            // 
+            this.ymin_txt.Location = new System.Drawing.Point(589, 174);
+            this.ymin_txt.Name = "ymin_txt";
+            this.ymin_txt.Size = new System.Drawing.Size(156, 20);
+            this.ymin_txt.TabIndex = 22;
+            this.ymin_txt.Text = "-10";
+            // 
+            // ymin_lbl
+            // 
+            this.ymin_lbl.AutoSize = true;
+            this.ymin_lbl.Location = new System.Drawing.Point(546, 177);
+            this.ymin_lbl.Name = "ymin_lbl";
+            this.ymin_lbl.Size = new System.Drawing.Size(37, 13);
+            this.ymin_lbl.TabIndex = 23;
+            this.ymin_lbl.Text = "y-min=";
+            // 
+            // xintvl_txt
+            // 
+            this.xintvl_txt.Location = new System.Drawing.Point(589, 150);
+            this.xintvl_txt.Name = "xintvl_txt";
+            this.xintvl_txt.Size = new System.Drawing.Size(156, 20);
+            this.xintvl_txt.TabIndex = 20;
+            this.xintvl_txt.Text = "1";
+            // 
+            // xintvl_lbl
+            // 
+            this.xintvl_lbl.AutoSize = true;
+            this.xintvl_lbl.Location = new System.Drawing.Point(528, 155);
+            this.xintvl_lbl.Name = "xintvl_lbl";
+            this.xintvl_lbl.Size = new System.Drawing.Size(55, 13);
+            this.xintvl_lbl.TabIndex = 21;
+            this.xintvl_lbl.Text = "x-interval=";
+            // 
+            // xmax_txt
+            // 
+            this.xmax_txt.Location = new System.Drawing.Point(589, 128);
+            this.xmax_txt.Name = "xmax_txt";
+            this.xmax_txt.Size = new System.Drawing.Size(156, 20);
+            this.xmax_txt.TabIndex = 18;
+            this.xmax_txt.Text = "10";
+            // 
+            // xmax_lbl
+            // 
+            this.xmax_lbl.AutoSize = true;
+            this.xmax_lbl.Location = new System.Drawing.Point(543, 131);
+            this.xmax_lbl.Name = "xmax_lbl";
+            this.xmax_lbl.Size = new System.Drawing.Size(40, 13);
+            this.xmax_lbl.TabIndex = 19;
+            this.xmax_lbl.Text = "x-max=";
+            // 
+            // xmin_txt
+            // 
+            this.xmin_txt.Location = new System.Drawing.Point(589, 102);
+            this.xmin_txt.Name = "xmin_txt";
+            this.xmin_txt.Size = new System.Drawing.Size(156, 20);
+            this.xmin_txt.TabIndex = 16;
+            this.xmin_txt.Text = "-10";
+            // 
+            // xmin_lbl
+            // 
+            this.xmin_lbl.AutoSize = true;
+            this.xmin_lbl.Location = new System.Drawing.Point(546, 105);
+            this.xmin_lbl.Name = "xmin_lbl";
+            this.xmin_lbl.Size = new System.Drawing.Size(37, 13);
+            this.xmin_lbl.TabIndex = 17;
+            this.xmin_lbl.Text = "x-min=";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 464);
+            this.ClientSize = new System.Drawing.Size(774, 612);
+            this.Controls.Add(this.apply_btn);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.yintvl_txt);
+            this.Controls.Add(this.yintvl_lbl);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.ymax_txt);
+            this.Controls.Add(this.xmin_lbl);
+            this.Controls.Add(this.ymax_lbl);
+            this.Controls.Add(this.xmin_txt);
+            this.Controls.Add(this.ymin_txt);
+            this.Controls.Add(this.xmax_lbl);
+            this.Controls.Add(this.ymin_lbl);
+            this.Controls.Add(this.xmax_txt);
+            this.Controls.Add(this.xintvl_txt);
+            this.Controls.Add(this.xintvl_lbl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "Form1";
             this.Text = "Form1";
@@ -229,6 +367,7 @@ namespace Assignment_4
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -251,6 +390,19 @@ namespace Assignment_4
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.ComboBox lineBox;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button apply_btn;
+        private System.Windows.Forms.TextBox yintvl_txt;
+        private System.Windows.Forms.Label yintvl_lbl;
+        private System.Windows.Forms.TextBox ymax_txt;
+        private System.Windows.Forms.Label ymax_lbl;
+        private System.Windows.Forms.TextBox ymin_txt;
+        private System.Windows.Forms.Label ymin_lbl;
+        private System.Windows.Forms.TextBox xintvl_txt;
+        private System.Windows.Forms.Label xintvl_lbl;
+        private System.Windows.Forms.TextBox xmax_txt;
+        private System.Windows.Forms.Label xmax_lbl;
+        private System.Windows.Forms.TextBox xmin_txt;
+        private System.Windows.Forms.Label xmin_lbl;
     }
 }
 

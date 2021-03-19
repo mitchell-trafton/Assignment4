@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+/************************************************************
+* Assignment 4
+* Programmers: Robert Tyler Trotter z1802019
+*              Mitchell Trafton     z1831076
+***********************************************************/
 namespace Assignment_4
 {
     static class Globals

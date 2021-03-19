@@ -7,7 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+/************************************************************
+* Assignment 4
+* Programmers: Robert Tyler Trotter z1802019
+*              Mitchell Trafton     z1831076
+***********************************************************/
 namespace Assignment_4
 {
     public partial class Form1 : Form

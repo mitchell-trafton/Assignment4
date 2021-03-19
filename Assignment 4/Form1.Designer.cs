@@ -1,4 +1,8 @@
-﻿
+﻿/************************************************************
+* Assignment 4
+* Programmers: Robert Tyler Trotter z1802019
+*              Mitchell Trafton     z1831076
+***********************************************************/
 namespace Assignment_4
 {
     partial class Form1

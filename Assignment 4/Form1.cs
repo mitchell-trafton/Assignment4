@@ -18,8 +18,13 @@ namespace Assignment_4
         int ymin = -10;//minimum y value for graph
         int ymax = 10;//maximum y value for graph
         int yintvl = 1;//interval for y-axis tick marks
-
-
+        // tooltip strings
+        string twoA = "Strechs the function";
+        string twoB = "controls the slope";
+        string twoC = "y intercept";
+        string threeH = "X coordinate of circle center";
+        string threeK = "Y Coordinate of circle center";
+        string threeR = "Radius of the circle";
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +34,13 @@ namespace Assignment_4
         {
 
         }
-
+        /**********************************************************
+         * comboBox1_SelectedIndexChanged
+         * purpose: This will change the availability of the user
+         * to enter in values, and change the labels depending on
+         * what kind of equation is selected. 
+         * 
+         **********************************************************/
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBox box = (ComboBox)sender;
@@ -47,6 +58,12 @@ namespace Assignment_4
                     textBox2.Enabled = true;
                     textBox3.Enabled = false;
                     textBox4.Enabled = false;
+                    tip1.RemoveAll();
+                    tip2.RemoveAll();
+                    tip3.RemoveAll();
+                    tip4.RemoveAll();
+                    tip1.SetToolTip(label1, twoB);
+                    tip2.SetToolTip(label2, twoC);
                     break;
                 case 1: // AX2+BX+C
                     label1.Text = "A=";
@@ -61,6 +78,13 @@ namespace Assignment_4
                     textBox2.Enabled = true;
                     textBox3.Enabled = true;
                     textBox4.Enabled = false;
+                    tip1.RemoveAll();
+                    tip2.RemoveAll();
+                    tip3.RemoveAll();
+                    tip4.RemoveAll();
+                    tip1.SetToolTip(label1, twoA);
+                    tip2.SetToolTip(label2, twoB);
+                    tip3.SetToolTip(label3, twoC);
                     break;
                 case 2: //AX3+BX2+CX+D
                     label1.Text = "A=";
@@ -75,6 +99,14 @@ namespace Assignment_4
                     textBox2.Enabled = true;
                     textBox3.Enabled = true;
                     textBox4.Enabled = true;
+                    tip1.RemoveAll();
+                    tip2.RemoveAll();
+                    tip3.RemoveAll();
+                    tip4.RemoveAll();
+                    tip1.SetToolTip(label1, twoA);
+                    tip2.SetToolTip(label2, twoA);
+                    tip3.SetToolTip(label3, twoB);
+                    tip4.SetToolTip(label4, twoC);
                     break;
                 case 3: //R2 = (x-H)2 + (Y-K)2
                     label1.Text = "H=";
@@ -89,6 +121,13 @@ namespace Assignment_4
                     textBox2.Enabled = true;
                     textBox3.Enabled = true;
                     textBox4.Enabled = false;
+                    tip1.RemoveAll();
+                    tip2.RemoveAll();
+                    tip3.RemoveAll();
+                    tip4.RemoveAll();
+                    tip1.SetToolTip(label1, threeH);
+                    tip2.SetToolTip(label2, threeK);
+                    tip3.SetToolTip(label3, threeR);
                     break;
                 default: //default and unselected
                     label1.Text = "";
@@ -102,11 +141,25 @@ namespace Assignment_4
                     textBox1.Enabled = false;
                     textBox2.Enabled = false;
                     textBox3.Enabled = false;
-                    textBox4.Enabled = false;
+                    textBox4.Enabled = false; 
+                    tip1.RemoveAll();
+                    tip2.RemoveAll();
+                    tip3.RemoveAll();
+                    tip4.RemoveAll();
                     break;
             }
         }
-
+        /******************************************************
+         * button1_Click
+         * purpose: when the calculate button is clicked
+         * it checks to make sure that all appropreate fields 
+         * for the variables are correct. Should the user not
+         * give enough information, it will throw a 
+         * InvalidOperationException, which when caught, will
+         * create a prompt that tells the user to finish entering
+         * information.
+         * 
+         *****************************************************/
         private void button1_Click(object sender, EventArgs e) //calculate button
         {
             try
@@ -168,7 +221,23 @@ namespace Assignment_4
                 MessageBoxButtons mButtons = MessageBoxButtons.OK;
                 MessageBox.Show(message, caption, mButtons);
             }
+            catch(Exception e2)
+            {
+                MessageBoxButtons mButtons = MessageBoxButtons.OK;
+                MessageBox.Show("An error occured: " + e2.Message, "Error", mButtons);
+
+            }
         }
+        /*********************************************************************
+         * void goDraw
+         * inputs: int index, int line number, array int values
+         * purpose: This accepts the user's variable information in the value
+         * array, line number is the key value of the line we are updating
+         * index is the value that represents the type of equation that we are 
+         * drawing.
+         * 
+         * 
+         ********************************************************************/
         private void goDraw(int index, int lineNumber, int[] values)
         {
             Globals.line[(uint)lineNumber] = new List<int>();
@@ -181,7 +250,12 @@ namespace Assignment_4
 
             pictureBox1.Refresh();
         }
-
+        /****************************************************
+         * clearButton_Click
+         * purpose: clears out the selected line of all it's values
+         * to remove the line
+         * 
+         ****************************************************/
         private void clearButton_Click(object sender, EventArgs e)
         {
             if (lineBox.SelectedIndex > -1) Globals.line[(uint)lineBox.SelectedIndex] = null;
@@ -453,6 +527,142 @@ namespace Assignment_4
             }
 
             return (int)coordConv;
+        }
+        /****************************************************
+         * The following methods are to control the input of 
+         * the user's keypresses into the various textboxes
+         * it will only allow them to put in numbers or the 
+         * negitive symbol
+         * 
+         ****************************************************/
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void xmin_txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void xmax_txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void xintvl_txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void ymin_txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void ymax_txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void yintvl_txt_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '-'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '-') && ((sender as TextBox).Text.IndexOf('-') > -1))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

@@ -59,6 +59,10 @@ namespace Assignment_4
             this.xmax_lbl = new System.Windows.Forms.Label();
             this.xmin_txt = new System.Windows.Forms.TextBox();
             this.xmin_lbl = new System.Windows.Forms.Label();
+            this.tip1 = new System.Windows.Forms.ToolTip();
+            this.tip2 = new System.Windows.Forms.ToolTip();
+            this.tip3 = new System.Windows.Forms.ToolTip();
+            this.tip4 = new System.Windows.Forms.ToolTip();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -80,6 +84,7 @@ namespace Assignment_4
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(156, 20);
             this.textBox1.TabIndex = 1;
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // textBox2
             // 
@@ -87,6 +92,7 @@ namespace Assignment_4
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(156, 20);
             this.textBox2.TabIndex = 2;
+            this.textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox2_KeyPress);
             // 
             // textBox3
             // 
@@ -94,6 +100,7 @@ namespace Assignment_4
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(156, 20);
             this.textBox3.TabIndex = 3;
+            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // textBox4
             // 
@@ -101,6 +108,7 @@ namespace Assignment_4
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(156, 20);
             this.textBox4.TabIndex = 4;
+            this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox4_KeyPress);
             // 
             // equationBox
             // 
@@ -245,6 +253,7 @@ namespace Assignment_4
             this.yintvl_txt.Size = new System.Drawing.Size(156, 20);
             this.yintvl_txt.TabIndex = 26;
             this.yintvl_txt.Text = "1";
+            this.yintvl_txt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.yintvl_txt_KeyPress);
             // 
             // yintvl_lbl
             // 
@@ -262,6 +271,7 @@ namespace Assignment_4
             this.ymax_txt.Size = new System.Drawing.Size(156, 20);
             this.ymax_txt.TabIndex = 24;
             this.ymax_txt.Text = "10";
+            this.ymax_txt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ymax_txt_KeyPress);
             // 
             // ymax_lbl
             // 
@@ -279,6 +289,7 @@ namespace Assignment_4
             this.ymin_txt.Size = new System.Drawing.Size(156, 20);
             this.ymin_txt.TabIndex = 22;
             this.ymin_txt.Text = "-10";
+            this.ymin_txt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ymin_txt_KeyPress);
             // 
             // ymin_lbl
             // 
@@ -296,6 +307,7 @@ namespace Assignment_4
             this.xintvl_txt.Size = new System.Drawing.Size(156, 20);
             this.xintvl_txt.TabIndex = 20;
             this.xintvl_txt.Text = "1";
+            this.xintvl_txt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.xintvl_txt_KeyPress);
             // 
             // xintvl_lbl
             // 
@@ -313,6 +325,7 @@ namespace Assignment_4
             this.xmax_txt.Size = new System.Drawing.Size(156, 20);
             this.xmax_txt.TabIndex = 18;
             this.xmax_txt.Text = "10";
+            this.xmax_txt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.xmax_txt_KeyPress);
             // 
             // xmax_lbl
             // 
@@ -330,6 +343,7 @@ namespace Assignment_4
             this.xmin_txt.Size = new System.Drawing.Size(156, 20);
             this.xmin_txt.TabIndex = 16;
             this.xmin_txt.Text = "-10";
+            this.xmin_txt.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.xmin_txt_KeyPress);
             // 
             // xmin_lbl
             // 
@@ -403,6 +417,10 @@ namespace Assignment_4
         private System.Windows.Forms.Label xmax_lbl;
         private System.Windows.Forms.TextBox xmin_txt;
         private System.Windows.Forms.Label xmin_lbl;
+        private System.Windows.Forms.ToolTip tip1;
+        private System.Windows.Forms.ToolTip tip2;
+        private System.Windows.Forms.ToolTip tip3;
+        private System.Windows.Forms.ToolTip tip4;
     }
 }
 
